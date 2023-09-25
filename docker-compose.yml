@@ -1,0 +1,29 @@
+version: '3'
+
+volumes:
+  server-data:
+  client-data:
+  
+services:
+  server:
+    build:
+      context: .
+      dockerfile: Dockerfile-server
+    volumes:
+      - ./client-data:/client-data
+    networks:
+      - my-network
+
+  client:
+    build:
+      context: .
+      dockerfile: Dockerfile-client
+    depends_on:
+      - server
+    volumes:
+      - ./client-data:/client-data
+    networks:
+      - my-network
+
+networks:
+  my-network:
